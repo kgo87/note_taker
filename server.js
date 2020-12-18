@@ -1,93 +1,99 @@
 // Dependencies
-// ===========================================================
-var express = require("express");
-var path = require("path");
-var fs = require("fs");
-var db = require("./db/db.json")
 
-var app = express();
-var PORT = process.env.PORT || 3000;
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const db = require("./db/db.json");
+const app = express();
+const PORT = process.env.PORT || 3001;
+// Express parsing
 app.use(express.static(path.join(__dirname,"public")));
-
-// Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Data
-var notes = []
+
+// variables
+var parsedData;
+
+// Function that generates a unique ID as a timestamp
+function generateID() {
+  id = new Date().getTime()
+  console.log(id)
+  return id
+}
+
 
 
 // Routes
-// ===========================================================
-
-app.get('/api/notes' ,function (req , res) {
-  console.log(db)
-  return res.json(db);
-  
-});
-
-// app.get("/api/notes", function(req, res) {
-//     fs.readFile(path.join(__dirname,"db","db.json"), function(error, data){
-//         if(error) {
-//             throw new error
-//         }
-//         else {
-//             res.send(data)
-//         }
-//     })
-// });
-// fs to red -> then parse with JSON.parse(). Send the parsed data with res.json()
-
-
-// Create New Note 
-app.post("/api/notes", function(req, res) {
-
-    var note = req.body;
-    // read file using fs module and parse to array with JSON.parse -> push req.body to array list 
-    // Json.stringify array list to JSON file
-    // save the contents back to db.json file with FS module
-    
-    console.log(note);
-    console.log(notes)
-    parsedNote = JSON.stringify(note);
-    db.push(parsedNote);
-    console.log(db)
-
-  
-    notes.push(note);
-    res.json(note);
+// GET route to display notes
+app.get("/api/notes", function( req, res ){
+    fs.readFile(path.join(__dirname,"db","db.json"), function(error, data){
+        if(error) {
+            throw new error
+        } else { 
+        parsedData = JSON.parse( data );
+        res.send( parsedData );
+        }
+    });
+})
+// POST `route to add a note to the database
+app.post( "/api/notes", function(req, res) {
+    fs.readFile(path.join(__dirname, "db", "db.json" ), function(error, data){
+      if(error) {
+          throw new error
+      }
+      else {
+        parsedArray =  JSON.parse( data )
+        var note = req.body;
+        note["id"] = generateID();
+        parsedArray.push( note );
+        jsonArray = JSON.stringify( parsedArray);
+        fs.writeFile( path.join(__dirname, "db", "db.json" ), jsonArray, (err) => {
+          if (err) throw err;
+          console.log( "Data written to file" );
+          res.sendStatus(200);
+      });
+      }
   });
+})
+// DELETE route to delete the specific note by its ID
+app.delete("/api/notes/:id", function(req, res) {
+  var id = Number(req.params.id);
+  console.log(id);
+  var updatedArray = [];
+  fs.readFile(path.join(__dirname, "db", "db.json" ), function(error, data){
+    if(error) {
+        throw new error
+    }
+    else {
+      
+      parsedArray =  JSON.parse( data )
+      for(var i=0; i<parsedArray.length; i++) {
+        if(parsedArray[i].id!==id) {
+          updatedArray.push(parsedArray[i]);
+          console.log(parsedArray[i].id)
+        }
+      }
 
-  app.delete('/api/notes/:id' ,function (req , res) {
-    // use fs to read the file and parse the data
-    // use array.splice and find the id using for loop 
-    // req.params.id
-    // Option B: use filter method to find the index and remove element with that index
-    // return any type of success method (retrun true/false) 
-
-    return res.json(db);
-    
-  });
-
-// [{"title":"Test Title","text":"Test text"}]
-
-
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname,"public", "index.html"));
+      jsonUpdatedArray = JSON.stringify( updatedArray);
+      fs.writeFile( path.join(__dirname, "db", "db.json" ), jsonUpdatedArray, (err) => {
+        if (err) throw err;
+        console.log( "Note deleted" );
+        res.sendStatus(200);
+    });
+    }
 });
+})
 
 
+// GET route to display notes.html` file.
+app.get("/notes", function( req, res ){
+    res.sendFile(path.join(__dirname, "public", "notes.html"))
+})
+// GET route to display`index.html` file
+app.get("*", function( req, res ){
+    res.sendFile(path.join(__dirname, "public", "index.html"))
+})
 
-app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname,"public", "notes.html"))
-});
-
-
-
-// Listener
-// ===========================================================
-app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
-});
-
-console.log(notes)
+// Listening to the port
+app.listen( PORT );
