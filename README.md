@@ -28,7 +28,7 @@ DELETE /api/notes/:id - Receives a query parameter containing the id of a note t
 
 ## 3. Link to Heroku deployment <a name="link"></a>
 The project is deployed on Heroku and available for view using this link:
-https://kgo87.github.io/portfolio_profile/ 
+https://note-taker-heroku-kat.herokuapp.com/ 
 
 ## 4. Structure<a name="structure"></a>
 The following routes have been created:
@@ -37,15 +37,19 @@ The following routes have been created:
 * GET /api/notes - Reads the db.json file and returns all saved notes as JSON.
 * POST /api/notes - Receives a new note to save on the request body, add it to the db.json file, and then return the new note to the client.
 * DELETE /api/notes/:id - Receives a query parameter containing the id of a note to delete.
-The screenshot below show __________.
-
-![Screenshot](./media/employee.png)
-![Screenshot](./media/engineer.png)
+The unique ID is being generated as a timestamp inside POST request.
+The screenshot below show the imported dependencies
+![Screenshot](./media/dep.png)
+The screenshot below show the routes
+![Screenshot](./media/routes.png)
 
 
 ## 5. Finished product<a name="final"></a>
-The developed *.html* file is located in the root of this folder: [Link](./output/team.html).
-
-Here are the screenshots of how the page looks like for 3 and 5 team memebers:
-![Screenshot](./media/team5.png)
-![Screenshot](./media/team3.png)
+Here are the screenshots of the landing page:
+![Screenshot](./media/index.png)
+Here is the screenshot of the page showing how the note is added
+![Screenshot](./media/add_note.png)
+Here is the screenshot of the page showing how the added note is saved and displayed in the side bar
+![Screenshot](./media/aside.png)
+Here is the screenshot of the page showing how the note is deleted
+![Screenshot](./media/delete.png)
