@@ -1,4 +1,4 @@
-# Note Taker [![MIT license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://lbesson.mit-license.org/)
+# Note Taker [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://lbesson.mit-license.org/)
 
 ## Table of Contents
 1. [ Description ](#desc)
@@ -6,6 +6,7 @@
 3. [ Link to Heroku deployment ](#link)
 4. [ Structure ](#structure)
 5. [ Finished product ](#final)
+6. [ Contact details ](#contact)
 
 
 ## 1. Description<a name="desc"></a>
@@ -14,8 +15,6 @@ This repository contains code for the application that allows user to view add, 
 ## 2. Task<a name="task"></a>
 Task is to build a test-driven application that takes in information about employees and dynamically generates an HTML webpage that displays summaries for each person.
 This application is designed to allow user to write, save, and delete notes. This application uses an express backend and saves and retrieves note data from a JSON file. A db.json file on the backend is used to store and retrieve notes using the fs module.
-
-
 
 
 The following routes have been created:
@@ -53,3 +52,8 @@ Here is the screenshot of the page showing how the added note is saved and displ
 ![Screenshot](./media/aside.png)
 Here is the screenshot of the page showing how the note is deleted
 ![Screenshot](./media/delete.png)
+
+## 6. Contact details<a name="contact"></a>
+If you have any questions, contact me via email: 
+
+<a href="mailto:kathy.gomozova@gmail.com?"><img src="https://img.shields.io/badge/gmail-%23DD0031.svg?&style=for-the-badge&logo=gmail&logoColor=white"/></a>
